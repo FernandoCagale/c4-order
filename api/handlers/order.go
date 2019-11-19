@@ -22,12 +22,7 @@ func NewOrder(usecase order.UseCase) *OrderHandler {
 func (handler *OrderHandler) FindAll(w http.ResponseWriter, r *http.Request) {
 	orders, err := handler.usecase.FindAll()
 	if err != nil {
-		switch err {
-		case errors.ErrInvalidPayload:
-			render.ResponseError(w, err, http.StatusBadRequest)
-		default:
-			render.ResponseError(w, err, http.StatusInternalServerError)
-		}
+		render.ResponseError(w, err, http.StatusInternalServerError)
 		return
 	}
 
