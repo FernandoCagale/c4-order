@@ -9,6 +9,11 @@ import (
 	"log"
 )
 
+const (
+	TOPIC = "topic.ecommerce"
+	QUEUE = "order"
+)
+
 type OrderEvent struct {
 	usecase order.UseCase
 	event   event.Event
@@ -21,8 +26,8 @@ func NewOrder(usecase order.UseCase, event event.Event) *OrderEvent {
 	}
 }
 
-func (eventOrder *OrderEvent) ProcessOrder()  {
-	messages, err := eventOrder.event.Subscribe("topic.ecommerce", "order")
+func (eventOrder *OrderEvent) ProcessOrder() {
+	messages, err := eventOrder.event.Subscribe(TOPIC, QUEUE)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

@@ -44,13 +44,13 @@ items:
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
-        envFrom:
-        - configMapRef:
-            name: c4-order-env
+          envFrom:
+          - configMapRef:
+              name: c4-order-env
 - apiVersion: networking.istio.io/v1alpha3
   kind: VirtualService
   metadata:
-    name: virtual-service-application-gateway
+    name: c4-order-virtual-service
   spec:
     hosts:
     - "*"

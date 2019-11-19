@@ -3,6 +3,7 @@ package event
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-amqp/pkg/amqp"
 	"github.com/ThreeDotsLabs/watermill/message"
@@ -31,6 +32,7 @@ func (o *EventRepository) getConfigQueue(queue string) (config amqp.Config) {
 func (o *EventRepository) message(payload interface{}) (*message.Message, error) {
 	body, err := json.Marshal(payload)
 	if err != nil {
+		fmt.Println(err.Error())
 		return nil, err
 	}
 
@@ -40,6 +42,7 @@ func (o *EventRepository) message(payload interface{}) (*message.Message, error)
 func (o *EventRepository) Subscribe(topic, queue string) (<-chan *message.Message, error) {
 	subscriber, err := amqp.NewSubscriber(o.getConfigQueue(queue), watermill.NewStdLogger(false, false))
 	if err != nil {
+		fmt.Println(err.Error())
 		return nil, err
 	}
 

@@ -4,6 +4,7 @@ import (
 	"github.com/FernandoCagale/c4-order/api/event"
 	"github.com/FernandoCagale/c4-order/api/handlers"
 	"github.com/gorilla/mux"
+	"time"
 )
 
 type SystemRoutes struct {
@@ -13,6 +14,8 @@ type SystemRoutes struct {
 }
 
 func (routes *SystemRoutes) MakeEvents() {
+	time.Sleep(5 * time.Second)
+
 	routes.orderEvent.ProcessOrder()
 }
 
