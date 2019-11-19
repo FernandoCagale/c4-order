@@ -19,7 +19,7 @@ func main() {
 		panic("Erro to start application")
 	}
 
-	app.MakeEvents()
+	go app.MakeEvents()
 
 	router := app.MakeHandlers()
 
@@ -27,7 +27,7 @@ func main() {
 
 	srv := &http.Server{
 		Handler:      router,
-		Addr:         ":8080",
+		Addr:         ":8081",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}

@@ -6,4 +6,5 @@ import (
 
 type UseCase interface {
 	Create(ecommerce *entity.Ecommerce) (err error)
+	FindAll() (orders []*entity.Customer, err error)
 }

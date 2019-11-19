@@ -17,6 +17,9 @@ func NewUseCase(repo Repository, event event.Event) *OrderUseCase {
 		event: event,
 	}
 }
+func (usecase *OrderUseCase) FindAll() (orders []*entity.Customer, err error) {
+	return usecase.repo.FindAll()
+}
 
 func (usecase *OrderUseCase) Create(e *entity.Ecommerce) error {
 	err := e.Validate()
@@ -29,6 +32,8 @@ func (usecase *OrderUseCase) Create(e *entity.Ecommerce) error {
 	if err = usecase.repo.Create(&customer); err != nil {
 		return err
 	}
+
+	//TODO notify
 
 	return nil
 }

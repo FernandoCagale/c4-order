@@ -23,7 +23,8 @@ func (routes *SystemRoutes) MakeHandlers() *mux.Router {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/health", routes.healthHandler.Health).Methods("GET")
-	r.HandleFunc("/order", routes.orderHandler.Create).Methods("POST")
+	r.HandleFunc("/orders", routes.orderHandler.Create).Methods("POST")
+	r.HandleFunc("/orders", routes.orderHandler.FindAll).Methods("GET")
 
 	return r
 }

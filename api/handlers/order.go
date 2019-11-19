@@ -19,8 +19,19 @@ func NewOrder(usecase order.UseCase) *OrderHandler {
 	}
 }
 
-func (handler *OrderHandler) Orders(w http.ResponseWriter, r *http.Request) {
-	render.Response(w, map[string]bool{"ok": true}, http.StatusOK)
+func (handler *OrderHandler) FindAll(w http.ResponseWriter, r *http.Request) {
+	orders, err := handler.usecase.FindAll()
+	if err != nil {
+		switch err {
+		case errors.ErrInvalidPayload:
+			render.ResponseError(w, err, http.StatusBadRequest)
+		default:
+			render.ResponseError(w, err, http.StatusInternalServerError)
+		}
+		return
+	}
+
+	render.Response(w, orders, http.StatusOK)
 }
 
 func (handler *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
