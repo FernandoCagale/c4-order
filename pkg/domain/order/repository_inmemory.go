@@ -32,7 +32,8 @@ func (repo *InMemoryRepository) Create(e *entity.Customer) (err error) {
 			order.Items = e.Orders[0].Items
 			return nil
 		}
-		customer.Orders = append(customer.Orders, order)
 	}
+	customer.Orders = append(customer.Orders, e.Orders...)
+
 	return nil
 }
