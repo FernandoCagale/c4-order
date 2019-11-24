@@ -57,5 +57,3 @@ $   go build -o bin/application
 ```sh
 $   ./bin/application
 ```
-
-docker run --network host -d --name rabbit rabbitmq:3-management
