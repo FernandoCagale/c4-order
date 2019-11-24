@@ -1,8 +1,24 @@
 **c4-order - docker**
 
+`Docker Mongodb`
+
+```sh
+$ docker run --network host --name mongo -d mongo
+```
+
+`Docker Rabbitmq`
+
+```sh
+$ docker run --network host --name rabbit -d rabbitmq
+```
+
+`Docker build c4-order`
+
 ```sh
 $   docker build -t c4-order .
 ```
+
+`Docker c4-order`
 
 ```sh
 $   docker run -d --name c4-order -p 8080:8080 c4-order
@@ -41,3 +57,5 @@ $   go build -o bin/application
 ```sh
 $   ./bin/application
 ```
+
+docker run --network host -d --name rabbit rabbitmq:3-management

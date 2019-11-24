@@ -1,6 +1,7 @@
 package order
 
 import (
+	"github.com/FernandoCagale/c4-order/internal/errors"
 	"github.com/FernandoCagale/c4-order/pkg/entity"
 )
 
@@ -17,6 +18,25 @@ func (repo *InMemoryRepository) FindAll() (orders []*entity.Customer, err error)
 		orders = append(orders, order)
 	}
 	return orders, nil
+}
+
+func (repo *InMemoryRepository)  FindById(ID string) (order *entity.Customer, err error) {
+	for _, order := range repo.m {
+		if order.Code == ID {
+			return order, nil
+		}
+	}
+	return nil, errors.ErrNotFound
+}
+
+func (repo *InMemoryRepository)  DeleteById(ID string) (err error) {
+	for _, order := range repo.m {
+		if order.Code == ID {
+			delete(repo.m, ID)
+			return nil
+		}
+	}
+	return errors.ErrNotFound
 }
 
 func (repo *InMemoryRepository) Create(e *entity.Customer) (err error) {

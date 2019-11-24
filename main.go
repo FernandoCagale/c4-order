@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/FernandoCagale/c4-order/api/middleware"
 	"github.com/joho/godotenv"
 	"log"
@@ -13,9 +14,16 @@ func init() {
 }
 
 func main() {
-	app, e := SetupApplication()
+	session, err := SetupMongoDB()
+	if err != nil {
+		fmt.Println(err.Error())
+		panic("Erro to start MongoDB")
+	}
 
-	if e != nil {
+	defer session.Close()
+
+	app, err := SetupApplication(session)
+	if err != nil {
 		panic("Erro to start application")
 	}
 
@@ -34,3 +42,4 @@ func main() {
 
 	log.Fatal(srv.ListenAndServe())
 }
+

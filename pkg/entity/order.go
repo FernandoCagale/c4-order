@@ -5,9 +5,9 @@ import (
 )
 
 type Customer struct {
-	Code   string   `json:"code"`
-	Name   string   `json:"name"`
-	Orders []*Order `json:"orders"`
+	Code   string        `json:"code" bson:"_id"`
+	Name   string        `json:"name"`
+	Orders []*Order      `json:"orders"`
 }
 
 type Order struct {

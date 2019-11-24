@@ -6,6 +6,7 @@ import (
 	"github.com/FernandoCagale/c4-order/internal/errors"
 	"github.com/FernandoCagale/c4-order/pkg/domain/order"
 	"github.com/FernandoCagale/c4-order/pkg/entity"
+	"github.com/gorilla/mux"
 	"net/http"
 )
 
@@ -29,6 +30,44 @@ func (handler *OrderHandler) FindAll(w http.ResponseWriter, r *http.Request) {
 	render.Response(w, orders, http.StatusOK)
 }
 
+func (handler *OrderHandler) FindById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	ID := vars["id"]
+
+	order, err := handler.usecase.FindById(ID)
+	if err != nil {
+		switch err {
+		case errors.ErrNotFound:
+			render.ResponseError(w, err, http.StatusNotFound)
+		default:
+			render.ResponseError(w, err, http.StatusInternalServerError)
+		}
+		return
+	}
+
+	render.Response(w, order, http.StatusOK)
+}
+
+func (handler *OrderHandler) DeleteById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	ID := vars["id"]
+
+	err := handler.usecase.DeleteById(ID)
+	if err != nil {
+		switch err {
+		case errors.ErrNotFound:
+			render.ResponseError(w, err, http.StatusNotFound)
+		default:
+			render.ResponseError(w, err, http.StatusInternalServerError)
+		}
+		return
+	}
+
+	render.Response(w, nil, http.StatusNoContent)
+}
+
 func (handler *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var ecommerce *entity.Ecommerce
 
@@ -44,11 +83,13 @@ func (handler *OrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 		switch err {
 		case errors.ErrInvalidPayload:
 			render.ResponseError(w, err, http.StatusBadRequest)
+		case errors.ErrConflict:
+			render.ResponseError(w, err, http.StatusConflict)
 		default:
 			render.ResponseError(w, err, http.StatusInternalServerError)
 		}
 		return
 	}
 
-	render.Response(w, ecommerce, http.StatusCreated)
+	render.Response(w, nil, http.StatusCreated)
 }

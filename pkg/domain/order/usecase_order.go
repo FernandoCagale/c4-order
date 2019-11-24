@@ -17,9 +17,19 @@ func NewUseCase(repo Repository, event event.Event) *OrderUseCase {
 		event: event,
 	}
 }
+
 func (usecase *OrderUseCase) FindAll() (orders []*entity.Customer, err error) {
 	return usecase.repo.FindAll()
 }
+
+func (usecase *OrderUseCase) FindById(ID string) (order *entity.Customer, err error) {
+	return usecase.repo.FindById(ID)
+}
+
+func (usecase *OrderUseCase) DeleteById(ID string) (err error) {
+	return usecase.repo.DeleteById(ID)
+}
+
 
 func (usecase *OrderUseCase) Create(e *entity.Ecommerce) error {
 	err := e.Validate()

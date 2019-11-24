@@ -17,7 +17,9 @@ func Response(w http.ResponseWriter, response interface{}, code int) {
 		return
 	}
 	w.WriteHeader(code)
-	w.Write(json)
+	if response != nil {
+		w.Write(json)
+	}
 }
 
 func ResponseError(w http.ResponseWriter, err error, code int) {
