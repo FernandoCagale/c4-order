@@ -23,6 +23,7 @@ items:
       app: c4-order
   data:
     AMQP_URI: "amqp://guest:guest@rabbitmq:5672"
+    MONGO_ADDRS: "mongodb.database.svc.cluster.local"
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:

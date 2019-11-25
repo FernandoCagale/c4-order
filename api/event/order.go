@@ -39,10 +39,12 @@ func (eventOrder *OrderEvent) ProcessOrder() {
 
 		if err := json.Unmarshal(msg.Payload, &ecommerce); err != nil {
 			fmt.Println(err.Error())
+			msg.Nacked()
 		}
 
 		if err = eventOrder.usecase.Create(&ecommerce); err != nil {
 			fmt.Println(err.Error())
+			msg.Nacked()
 		}
 
 		msg.Ack() //TODO x-dead-letter-exchange
