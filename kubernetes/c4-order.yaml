@@ -22,10 +22,13 @@ items:
     labels:
       app: c4-order
   data:
-    AMQP_URI: "amqp://guest:guest@rabbitmq:5672"
-    MONGO_ADDRS: "mongodb.database.svc.cluster.local"
+    AMQP_URI: "amqp://guest:guest@rabbitmq.message.svc.cluster.local:5672/"
+    MONGO_ADDRS: "mongo-order-mongodb.database.svc.cluster.local"
+    MONGO_DATABASE: "c4-order-database"
+    MONGO_USERNAME: "admin"
+    MONGO_PASSWORD: "admin"
     PORT: "8080"
-- apiVersion: extensions/v1beta1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     name: c4-order
@@ -34,6 +37,9 @@ items:
       app: c4-order
   spec:
     replicas: 1
+    selector:
+      matchLabels:
+        app: c4-order
     template:
       metadata:
         labels:
