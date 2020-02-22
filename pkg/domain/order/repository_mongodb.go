@@ -4,6 +4,7 @@ import (
 	"github.com/FernandoCagale/c4-order/internal/errors"
 	"github.com/FernandoCagale/c4-order/pkg/entity"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 const (
@@ -49,7 +50,16 @@ func (repo *MongodbRepository) FindById(ID string) (order *entity.Customer, err 
 func (repo *MongodbRepository) Create(e *entity.Customer) (err error) {
 	coll := repo.session.DB(DATABASE).C(COLLECTION)
 
-	err = coll.Insert(e)
+	change, err := repo.FindById(e.Code)
+	switch err {
+	case errors.ErrNotFound:
+		err = coll.Insert(e)
+	case nil:
+		err = coll.Update(change, bson.M{"$push": bson.M{"orders": bson.M{"$each": e.Orders}}})
+	default:
+		return errors.ErrInternalServer
+	}
+
 	if err != nil {
 		if mgo.IsDup(err) {
 			return errors.ErrConflict

@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	TOPIC = "topic.ecommerce"
-	QUEUE = "order"
+	EXCHANGE = "ecommerce"
+	QUEUE    = "order"
 )
 
 type OrderEvent struct {
@@ -27,7 +27,7 @@ func NewOrder(usecase order.UseCase, event event.Event) *OrderEvent {
 }
 
 func (eventOrder *OrderEvent) ProcessOrder() {
-	messages, err := eventOrder.event.Subscribe(TOPIC, QUEUE)
+	messages, err := eventOrder.event.SubscribeExchange(EXCHANGE, QUEUE)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
