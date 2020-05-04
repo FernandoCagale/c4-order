@@ -26,7 +26,11 @@ func NewOrder(usecase order.UseCase, event event.Event) *OrderEvent {
 	}
 }
 
-func (eventOrder *OrderEvent) ProcessOrder() {
+func (event *OrderEvent) MakeEvents() {
+	go event.processOrder()
+}
+
+func (eventOrder *OrderEvent) processOrder() {
 	messages, err := eventOrder.event.SubscribeExchange(EXCHANGE, QUEUE)
 	if err != nil {
 		fmt.Println(err.Error())
