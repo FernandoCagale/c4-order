@@ -1,4 +1,6 @@
-**c4-order - docker**
+# c4-order [Flow](https://github.com/FernandoCagale/c4-kustomize)
+
+## Dependencies
 
 `Docker Mongodb`
 
@@ -12,20 +14,21 @@ $ docker run --network host --name mongo -d mongo
 $ docker run --network host --name rabbit -d rabbitmq
 ```
 
-`Docker build c4-order`
+## Build Docker
+
+`build and publish c4-order`
 
 ```sh
-$   docker build -t c4-order .
+$   ./scripts/publish.sh
 ```
 
-`Docker c4-order`
+## Kubernetes [YAML](https://github.com/FernandoCagale/c4-kustomize/tree/master/c4-order/base)
 
-```sh
-$   docker run -d --name c4-order -p 8080:8080 c4-order
-```
+    *   deployment.yaml
+    *   service.yaml
+    *   virtualservice.yaml
 
-**c4-order - local**
-
+## Running local
 
 ```sh
 $   go mod download
@@ -41,19 +44,6 @@ $   go mod vendor
 $   go get -u github.com/google/wire/cmd/wire
 ```
 
-`generate wire_gen.go`
-
 ```sh
-$   wire
-```
-
-`generate build`
-
-```sh
-$   go build -o bin/application
-```
-
-
-```sh
-$   ./bin/application
+$   ./scripts/start.sh
 ```
