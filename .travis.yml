@@ -1,0 +1,10 @@
+dist: trusty
+
+jobs:
+  include:
+  - stage: build
+    script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -f build/Dockerfile -t $DOCKER_USERNAME/c4-order .
+    - docker push $DOCKER_USERNAME/c4-order
+    if: branch = master
