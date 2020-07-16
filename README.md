@@ -1,5 +1,7 @@
 # c4-order [Flow](https://github.com/FernandoCagale/c4-kustomize)
 
+[![Build Status](https://travis-ci.org/FernandoCagale/c4-order.svg?branch=master)](https://travis-ci.org/FernandoCagale/c4-order)
+
 ### Docker
 
 `running docker multi-stage builds and publish c4-order`
