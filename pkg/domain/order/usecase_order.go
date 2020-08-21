@@ -1,22 +1,22 @@
 package order
 
 import (
+	"github.com/FernandoCagale/c4-order/internal/broker/producer"
 	"github.com/FernandoCagale/c4-order/internal/errors"
-	"github.com/FernandoCagale/c4-order/internal/event"
 	"github.com/FernandoCagale/c4-order/pkg/entity"
 )
 
-const QUEUE = "notify.order"
+const TOPIC = "order.registered"
 
 type OrderUseCase struct {
-	repo  Repository
-	event event.Event
+	repo     Repository
+	producer producer.Producer
 }
 
-func NewUseCase(repo Repository, event event.Event) *OrderUseCase {
+func NewUseCase(repo Repository, producer producer.Producer) *OrderUseCase {
 	return &OrderUseCase{
-		repo:  repo,
-		event: event,
+		repo:     repo,
+		producer: producer,
 	}
 }
 
@@ -32,7 +32,6 @@ func (usecase *OrderUseCase) DeleteById(ID string) (err error) {
 	return usecase.repo.DeleteById(ID)
 }
 
-
 func (usecase *OrderUseCase) Create(e *entity.Ecommerce) error {
 	err := e.Validate()
 	if err != nil {
@@ -45,7 +44,7 @@ func (usecase *OrderUseCase) Create(e *entity.Ecommerce) error {
 		return err
 	}
 
-	if err := usecase.event.PublishQueue(QUEUE, customer); err != nil {
+	if err := usecase.producer.Producer(TOPIC, customer); err != nil {
 		return err
 	}
 
